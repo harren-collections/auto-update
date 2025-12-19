@@ -1,0 +1,44 @@
+name: Auto Merge Upstream
+ 
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"
+ 
+jobs: # 执行的工作
+  run_update_python:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+ 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          
+      - name: Checkout private repo
+        uses: actions/checkout@v4
+        with:
+          repository: harren-collections/update-code
+          token: ${{ secrets.G_TOKEN }}
+          path: update-code
+          fetch-depth: 1
+
+      - name: Install dependencies
+        run: |
+          cd update-code
+          pip install -r requirements.txt || echo "No dependencies"
+ 
+      - name: Run script
+        env:
+          G_TOKEN: ${{ secrets.G_TOKEN }}
+        run: |
+          cd update-code
+          python actions.py
+
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@main
+        with:
+          retain_days: 0
+          keep_minimum_runs: 100
