@@ -21,6 +21,7 @@ jobs: # 执行的工作
         uses: actions/checkout@v4
         with:
           repository: harren-collections/update-code
+          ref: main
           token: ${{ secrets.G_TOKEN }}
           path: update-code
           fetch-depth: 1
