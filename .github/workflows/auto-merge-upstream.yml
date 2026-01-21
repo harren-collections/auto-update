@@ -27,9 +27,3 @@ jobs: # 执行的工作
         env:
           G_TOKEN: ${{ secrets.G_TOKEN }}
         run: python actions.py
-
-      - name: Delete workflow runs
-        uses: Mattraks/delete-workflow-runs@main
-        with:
-          retain_days: 0
-          keep_minimum_runs: 100
