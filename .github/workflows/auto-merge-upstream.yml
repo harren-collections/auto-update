@@ -10,13 +10,13 @@ jobs: # 执行的工作
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@main
+        uses: actions/checkout@v6
         with:
           repository: harren-collections/update-code
           token: ${{ secrets.G_TOKEN }}
  
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.13' 
 
@@ -29,7 +29,7 @@ jobs: # 执行的工作
         run: python actions.py
 
       - name: Checkout current repo status branch
-        uses: actions/checkout@main
+        uses: actions/checkout@v6
         with:
           ref: status
           path: current-repo
