@@ -10,7 +10,7 @@ jobs: # 执行的工作
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
         with:
           repository: harren-collections/update-code
           token: ${{ secrets.G_TOKEN }}
