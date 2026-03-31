@@ -27,3 +27,24 @@ jobs: # 执行的工作
         env:
           G_TOKEN: ${{ secrets.G_TOKEN }}
         run: python actions.py
+
+      - name: Checkout current repo status branch
+        uses: actions/checkout@main
+        with:
+          ref: status
+          path: current-repo
+          token: ${{ secrets.G_TOKEN }}
+
+      - name: Update task file with current timestamp
+        working-directory: current-repo
+        run: |
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > task
+
+      - name: Commit and push task file
+        working-directory: current-repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add task
+          git diff --cached --quiet || git commit -m "chore: update task timestamp"
+          git push origin status
